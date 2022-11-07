@@ -42,8 +42,8 @@ describe('<App /> tests', () => {
   
   it('todo item should be crossed out after completing', async () => {
     render(<App />);
-    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
     userEvent.click(screen.getByTestId('checkbox-1'));
+    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
     expect(screen.getByText(/eat breakfast/i)).toHaveClass('completed');
   });
 
