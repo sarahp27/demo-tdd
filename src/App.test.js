@@ -54,4 +54,11 @@ describe('<App /> tests', () => {
     expect(screen.getByText(/eat breakfast/i)).toHaveClass('completed');
   });
 
+  //making test for check due date in todo item
+  it('todo item should have a due date',async()=>{
+      fetchMock.once(JSON.stringify(mockData));
+      render(<App />);
+      expect(screen.queryByText(/12-12-2022/i)).toBeInTheDocument();
+  });
+
 });
