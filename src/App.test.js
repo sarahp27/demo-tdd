@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import {render, screen, waitFor, waitForElementToBeRemoved} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockData from './mockData';
 import App from './App';
@@ -41,8 +41,15 @@ describe('<App /> tests', () => {
   // });
   
   it('todo item should be crossed out after completing', async () => {
+      jest.spyOn(global, "fetch").mockImplementation(() =>
+      Promise.resolve({
+          json: () => Promise.resolve(mockData)
+      })
+      );
     render(<App />);
-    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
+    await waitFor(() => {
+        expect(screen.getByTestId('checkbox-1')).toBeDefined();
+    })
     userEvent.click(screen.getByTestId('checkbox-1'));
     expect(screen.getByText(/eat breakfast/i)).toHaveClass('completed');
   });

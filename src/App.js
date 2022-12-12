@@ -5,11 +5,11 @@ import { act } from '@testing-library/react';
 import TodoItem from './components/TodoItem';
 
 function App() {
+
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newTodo, setNewTodo] = useState('');
   const [saving, setSaving] = useState(false);
-  
   function onChange(e) {
     const value = e.target.value;
     setNewTodo(value);
@@ -17,10 +17,10 @@ function App() {
   
   function removeTodo(id) {
     setTodos(todos.filter(t => t.id !== id));
-    console.log(todos)
   }
 
   function updateTodo(id) {
+      setLoading(true);
     const newList = todos.map((todoItem) => {
       if (todoItem.id === id) {
         const updatedItem = { ...todoItem, completed: !todoItem.completed };
@@ -29,6 +29,7 @@ function App() {
       return todoItem;
     });
     setTodos(newList);
+    setLoading(false);
   }
 
   function addTodo(e) {
@@ -41,7 +42,7 @@ function App() {
     };
   
     setSaving(true);
-    fetch('https://jsonplaceholder.typicode.com/todos', {
+    fetch(process.env.REACT_APP_API_URL, {
       method: 'POST',
       body: JSON.stringify(value),
       headers: {
@@ -57,7 +58,7 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      const result = await fetch('https://jsonplaceholder.typicode.com/todos').then((response) =>
+      const result = await fetch(process.env.REACT_APP_API_URL).then((response) =>
         response.json()
       );
       act (()=>{
@@ -68,7 +69,6 @@ function App() {
     }
     fetchData();
   }, []);
-
   return (
   <div className="App">
     <h1 className="header">My todo list</h1>
