@@ -15,3 +15,12 @@
   .completed {
     text-decoration: line-through;
   }
+
+  .date{
+    margin-left: 10px;
+    background-color: red;
+  }
+  .dateTwo{
+    background-color: rgb(0, 255, 89);
+
+  }
